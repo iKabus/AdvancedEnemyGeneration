@@ -69,10 +69,7 @@ public class Spawner : MonoBehaviour
         int indexTarget = Random.Range(minIndexTarget, maxIndexTarget);
 
         _target = _targets[indexTarget];
-
-        Debug.Log(indexTarget);
-        Debug.Log(_targets.Length);
-        
+                
         return _target;
     }
 
