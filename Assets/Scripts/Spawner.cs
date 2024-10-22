@@ -33,6 +33,14 @@ public class Spawner : MonoBehaviour
         _coroutine = StartCoroutine(SpawnCooldown());
     }
 
+    private void OnDestroy()
+    {
+        if (_coroutine != null)
+        {
+            StopCoroutine(_coroutine);
+        }
+    }
+
     private IEnumerator SpawnCooldown()
     {
         var wait = new WaitForSeconds(_repeatRate);
@@ -45,20 +53,11 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
-    {
-        if (_coroutine != null)
-        {
-            StopCoroutine(_coroutine);
-        }
-    }
-
     private void Spawn()
     {
         Enemy enemy = _pool.Get();
         GetTarget();
-        enemy.Init(transform.position);
-        enemy.GetTarget(_target.transform);
+        enemy.Init(transform.position, _target.transform);
         enemy.OnTriggerEntered += Release;
     }
 

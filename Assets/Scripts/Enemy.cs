@@ -8,6 +8,11 @@ public class Enemy : MonoBehaviour
 
     public event Action<Enemy> OnTriggerEntered;
 
+    private void Awake()
+    {
+        _mover = GetComponent<Mover>();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent<Target>(out _))
@@ -16,14 +21,9 @@ public class Enemy : MonoBehaviour
         }
     }
 
-     public void Init(Vector3 position)
+    public void Init(Vector3 position, Transform direction)
     {
         transform.position = position;
-    }
-
-    public void GetTarget(Transform direction)
-    {
-        _mover = GetComponent<Mover>();
         _mover.GetDirection(direction);
     }
 }

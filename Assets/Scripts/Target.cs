@@ -17,19 +17,14 @@ public class Target : MonoBehaviour
 
     public int CounterTargets { get; private set; }
 
+    private void Awake()
+    {
+        _mover = GetComponent<Mover>();
+    }
+
     private void Start()
     {
         _coroutine = StartCoroutine(TargetsCirculation());
-    }
-
-    private IEnumerator TargetsCirculation()
-    {
-        while (enabled)
-        {
-            Circulation();
-
-            yield return new WaitUntil(() => _isCome == true);
-        }
     }
 
     private void OnDestroy()
@@ -48,7 +43,17 @@ public class Target : MonoBehaviour
         }
     }
 
-    private void Circulation()
+    private IEnumerator TargetsCirculation()
+    {
+        while (enabled)
+        {
+            Circulate();
+
+            yield return new WaitUntil(() => _isCome == true);
+        }
+    }
+
+    private void Circulate()
     {
         GetCheckPoint(CounterTargets);
         Init(transform.position);
@@ -95,14 +100,13 @@ public class Target : MonoBehaviour
         return CounterTargets++;
     }
 
-    private void Init(Vector3 position)
+    private void Init(Vector3 position )
     {
         transform.position = position;
     }
 
     private void GetTarget(Transform direction)
     {
-        _mover = GetComponent<Mover>();
         _mover.GetDirection(direction);
     }
 }
