@@ -13,8 +13,6 @@ public class Target : MonoBehaviour
 
     private bool _isCome = false;
 
-    public event Action<Target> OnTriggerEntered;
-
     public int CounterTargets { get; private set; }
 
     private void Awake()
@@ -39,7 +37,7 @@ public class Target : MonoBehaviour
     {
         if (other.TryGetComponent<CheckPoint>(out _))
         {
-            OnTriggerEntered?.Invoke(this);
+            ChangeCheckPoint(this);
         }
     }
 
@@ -58,7 +56,6 @@ public class Target : MonoBehaviour
         GetCheckPoint(CounterTargets);
         Init(transform.position);
         GetTarget(_checkPoint.transform);
-        OnTriggerEntered += ChangeCheckPoint;
     }
 
     private void ChangeCheckPoint(Target target)
@@ -107,6 +104,6 @@ public class Target : MonoBehaviour
 
     private void GetTarget(Transform direction)
     {
-        _mover.GetDirection(direction);
+        _mover.SetTarget(direction);
     }
 }

@@ -11,7 +11,7 @@ public class Mover : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, _targetPosition.position, _speed * Time.deltaTime);
     }
 
-    public void GetDirection(Transform direction)
+    public void SetTarget(Transform direction)
     {
         _targetPosition = direction;
     }

@@ -56,25 +56,23 @@ public class Spawner : MonoBehaviour
     private void Spawn()
     {
         Enemy enemy = _pool.Get();
-        GetTarget();
+        ChooseTarget();
         enemy.Init(transform.position, _target.transform);
-        enemy.OnTriggerEntered += Release;
+        enemy.TriggerEntering += Release;
     }
 
-    private Target GetTarget()
+    private void ChooseTarget()
     {
         int minIndexTarget = 0;
         int maxIndexTarget = _targets.Length;
         int indexTarget = Random.Range(minIndexTarget, maxIndexTarget);
 
-        _target = _targets[indexTarget];
-                
-        return _target;
+        _target = _targets[indexTarget];                
     }
 
     private void Release(Enemy enemy)
     {
-        enemy.OnTriggerEntered -= Release;
+        enemy.TriggerEntering -= Release;
         _pool.Release(enemy);
     }
 }

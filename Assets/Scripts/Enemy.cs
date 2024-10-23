@@ -6,7 +6,7 @@ public class Enemy : MonoBehaviour
 {
     private Mover _mover;
 
-    public event Action<Enemy> OnTriggerEntered;
+    public event Action<Enemy> TriggerEntering;
 
     private void Awake()
     {
@@ -17,13 +17,13 @@ public class Enemy : MonoBehaviour
     {
         if (other.TryGetComponent<Target>(out _))
         {
-            OnTriggerEntered?.Invoke(this);
+            TriggerEntering?.Invoke(this);
         }
     }
 
     public void Init(Vector3 position, Transform direction)
     {
         transform.position = position;
-        _mover.GetDirection(direction);
+        _mover.SetTarget(direction);
     }
 }
