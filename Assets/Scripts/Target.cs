@@ -13,7 +13,7 @@ public class Target : MonoBehaviour
 
     private bool _isCome = false;
 
-    public int CounterTargets { get; private set; }
+    public int Counter { get; private set; }
 
     private void Awake()
     {
@@ -22,7 +22,7 @@ public class Target : MonoBehaviour
 
     private void Start()
     {
-        _coroutine = StartCoroutine(TargetsCirculation());
+        _coroutine = StartCoroutine(Circulating());
     }
 
     private void OnDestroy()
@@ -37,11 +37,11 @@ public class Target : MonoBehaviour
     {
         if (other.TryGetComponent<CheckPoint>(out _))
         {
-            ChangeCheckPoint(this);
+            ChangeCheckPoint();
         }
     }
 
-    private IEnumerator TargetsCirculation()
+    private IEnumerator Circulating()
     {
         while (enabled)
         {
@@ -53,28 +53,28 @@ public class Target : MonoBehaviour
 
     private void Circulate()
     {
-        GetCheckPoint(CounterTargets);
+        GetCheckPoint(Counter);
         Init(transform.position);
-        GetTarget(_checkPoint.transform);
+        Set(_checkPoint.transform);
     }
 
-    private void ChangeCheckPoint(Target target)
+    private void ChangeCheckPoint()
     {
         int lastTarget = _checkPoints.Length - 1;
 
         _isCome = true;
 
-        if (CounterTargets == lastTarget)
+        if (Counter == lastTarget)
         {
-            StartCounterTarget();
-            GetCheckPoint(CounterTargets);
-            GetTarget(_checkPoint.transform);
+            StartCounter();
+            GetCheckPoint(Counter);
+            Set(_checkPoint.transform);
         }
         else
         {
-            UpperCounterTarget();
-            GetCheckPoint(CounterTargets);
-            GetTarget(_checkPoint.transform);
+            UpperCounter();
+            GetCheckPoint(Counter);
+            Set(_checkPoint.transform);
         }
 
         _isCome = false;
@@ -87,14 +87,14 @@ public class Target : MonoBehaviour
         return _checkPoint;
     }
 
-    private int StartCounterTarget()
+    private int StartCounter()
     {
-        return CounterTargets = 0;
+        return Counter = 0;
     }
 
-    private int UpperCounterTarget()
+    private int UpperCounter()
     {
-        return CounterTargets++;
+        return Counter++;
     }
 
     private void Init(Vector3 position )
@@ -102,8 +102,8 @@ public class Target : MonoBehaviour
         transform.position = position;
     }
 
-    private void GetTarget(Transform direction)
+    private void Set(Transform target)
     {
-        _mover.SetTarget(direction);
+        _mover.SetTarget(target);
     }
 }

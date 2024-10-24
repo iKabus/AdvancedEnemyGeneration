@@ -21,9 +21,9 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void Init(Vector3 position, Transform direction)
+    public void Init(Vector3 position, Transform target)
     {
         transform.position = position;
-        _mover.SetTarget(direction);
+        _mover.SetTarget(target);
     }
 }
